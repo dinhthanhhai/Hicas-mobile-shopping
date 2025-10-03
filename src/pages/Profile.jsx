@@ -39,28 +39,28 @@ function Profile() {
             <span className="text-xl break-all">Email: {profile?.email}</span>
           </div>
         </div>
-        <div className="w-full mt-5 flex flex-col gap-5">
-          <div className="flex gap-5">
-            <span className="w-1/4">Date of birth:</span>
+        <div className="w-full mt-5 flex flex-col gap-5 text-sm xs:text-base">
+          <div className="grid grid-cols-2">
+            <span className="w-1/3 xs:w-1/4">Date of birth:</span>
             <div className="flex-1 flex gap-2 items-center">
               <span>{profile?.birthDate}</span>
               <CalendarDays className="w-6 h-6 text-slate-600" />
             </div>
           </div>
-          <div className="flex gap-5">
-            <span className="w-1/4">Sex:</span>
+          <div className="grid grid-cols-2">
+            <span className="w-1/3 xs:w-1/4">Sex:</span>
             <select defaultValue={profile?.gender}>
               <option value={"male"}>Male</option>
               <option value={"female"}>Female</option>
             </select>
           </div>
-          <div className="flex gap-5">
-            <span className="w-1/4">Address Company:</span>
-            <p className="underline underline-offset-2">{`${profile?.company?.address?.address}, ${profile?.company?.address?.city}`}</p>
+          <div className="grid grid-cols-2">
+            <span className="w-1/3 xs:w-1/4">Address Company:</span>
+            <p className="underline underline-offset-2 break-all">{`${profile?.company?.address?.address}, ${profile?.company?.address?.city}`}</p>
           </div>
-          <div className="flex gap-5">
-            <span className="w-1/4">Address Home:</span>
-            <p className="underline underline-offset-2">{`${profile?.address?.address}, ${profile?.address?.city}`}</p>
+          <div className="grid grid-cols-2">
+            <span className="w-1/3 xs:w-1/4">Address Home:</span>
+            <p className="underline underline-offset-2 break-all">{`${profile?.address?.address}, ${profile?.address?.city}`}</p>
           </div>
           <button className="px-3 py-1 border rounded-md m-auto mt-5">
             Update

@@ -53,7 +53,7 @@ function Cart() {
       <div className="flex flex-col gap-3 px-5 pt-5 border-b border-slate-300 h-28">
         <span className="text-4xl font-bold mr-auto">Cart</span>
         <div className="flex items-center justify-between">
-          <span className="text-2xl mr-auto sm:mb-auto flex-1">
+          <span className="text-xl xs:text-2xl mr-auto sm:mb-auto flex-1">
             Shop / Product
           </span>
           <span className="items-end">{total} Items in bag</span>
