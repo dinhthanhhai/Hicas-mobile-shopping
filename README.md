@@ -1,138 +1,143 @@
-Xây dựng Website Bán Hàng với ReactJS từ Thiết kế Figma
-Loại thực tập: Part-time
+# 🛒 React Vite Redux Project
 
-1. Mục tiêu đề tài
-   Sinh viên sẽ nắm vững kiến thức và kỹ năng phát triển ứng dụng web với ReactJS, từ việc cài đặt môi trường, hiểu rõ kiến trúc component, quản lý trạng thái với state/props, đến việc triển khai giao diện thực tế từ thiết kế Figma.
+Dự án này là một ứng dụng web xây dựng bằng **React** (thư viện giao diện), **Vite** (công cụ bundler/serve nhanh), và **Redux** (quản lý trạng thái toàn cục).  
+Ứng dụng mô phỏng một hệ thống thương mại điện tử cơ bản với các tính năng: đăng nhập, đăng xuất, tìm kiếm sản phẩm, quản lý giỏ hàng,...
 
-Kết quả thực tập là một website thương mại điện tử đơn giản, đáp ứng các chức năng giao diện, giỏ hàng, điều hướng, và hiển thị dữ liệu.
+---
 
-2. Kế hoạch thực tập
-   Giai đoạn 1: Khởi tạo và cài đặt môi trường (Tuần 1)
-   ✅ Hướng dẫn:
+## 🚀 Cài đặt và chạy
 
-Cài đặt Node.js
-🔗 https://nodejs.org/en/download
+### Yêu cầu môi trường
 
-Cài đặt VS Code
-🔗 https://code.visualstudio.com/download
+- **Node.js** >= 18
+- **npm** hoặc **yarn** hoặc **pnpm**
 
-Tạo project React bằng Create React App hoặc Vite
+### Các bước thực hiện
 
-✅ Học tài liệu và video:
+1. **Clone** dự án về máy:
+   ```bash
+   git clone https://github.com/your-username/your-repo.git
+   cd your-repo
+   Cài đặt gói phụ thuộc:
+   ```
 
-React Official Docs
+bash
+Sao chép mã
+npm install
 
-W3Schools React
+# hoặc
 
-Tutorialspoint React
+yarn install
+Chạy dự án ở môi trường phát triển:
 
-Video playlist
+bash
+Sao chép mã
+npm run dev
+Ứng dụng sẽ chạy tại địa chỉ: http://localhost:5173
 
-Giai đoạn 2: Ôn tập kiến thức ReactJS nền tảng (Tuần 2–3)
-✅ Chủ đề cần nắm:
+Build cho môi trường production:
 
-JSX và Component
+bash
+Sao chép mã
+npm run build
+Xem thử bản build:
 
-Props vs State
+bash
+Sao chép mã
+npm run preview
+🧩 Thành phần chính
 
-useState, useEffect, useRef
+1. Header
 
-Lifecycle trong React
+2. Sidebar
 
-React Router DOM
+3. LoadingOverlay
 
-Redux (hoặc Context API nếu nhẹ)
+📦 Quản lý trạng thái (Redux)
+Cấu trúc Redux
+store/ chứa cấu hình Redux store.
 
-✅ Câu hỏi ôn tập:
+features/ chia nhỏ reducer theo từng chức năng:
 
-React là gì?
+userSlice: quản lý trạng thái đăng nhập.
 
-Component là gì?
+cartSlice: quản lý giỏ hàng (danh sách sản phẩm, tổng số lượng).
 
-Props và State khác nhau thế nào?
+productSlice: quản lý sản phẩm (danh sách sản phẩm, từ khóa tìm kiếm).
 
-React lifecycle là gì?
+uiSlice: quản lý UI (LoadingOverlay).
 
-Redux là gì và dùng trong trường hợp nào?
+Nguyên tắc
+State toàn cục nằm trong Redux Store.
 
-Mô hình MVC là gì và React thuộc phần nào?
+Actions là sự kiện (login, logout, searchProducts, setLoading,...).
 
-Giai đoạn 3: Phân tích Figma & tạo cấu trúc giao diện (Tuần 4–5)
-🎨 Link Figma thiết kế:
-🔗 Figma Tutorial - Angular (dùng cho React)
+Reducers nhận state + action → trả về state mới (bất biến, không thay đổi trực tiếp).
 
-✅ Các phần cần dựng:
+Async logic (ví dụ gọi API đăng nhập, tìm kiếm sản phẩm) xử lý bằng createAsyncThunk (Redux Toolkit).
 
-Header: Logo + icon người dùng
+⚙️ Chức năng
+🔑 Đăng nhập / Đăng xuất
+Người dùng nhập tài khoản + mật khẩu → gọi API → nếu thành công lưu token vaof cookie + thông tin user vào Redux userSlice.
 
-Sidebar (Toolbar): Bấm vào thu gọn/mở rộng + chuyển trang
+Khi đăng xuất → xoá token, reset user state.
 
-Main view: hiển thị nội dung theo điều hướng → dùng React Router
+Header sẽ cập nhật giao diện (hiển thị “Đăng nhập” hoặc avatar người dùng).
 
-Shop page:
+🔍 Tìm kiếm sản phẩm
+Ô tìm kiếm lắng nghe nhập liệu.
 
-Hiển thị danh sách sản phẩm
+Sau khi người dùng nhập → dispatch action searchProductsThunk gọi API sản phẩm.
 
-Tìm kiếm từ khóa từng ký tự (onChange)
+Kết quả tìm kiếm hiển thị trong danh sách sản phẩm.
 
-Lọc theo giá/thương hiệu
+🛒 Giỏ hàng
+Người dùng có thể thêm sản phẩm từ danh sách vào giỏ → dispatch addProduct.
 
-Product page:
+Xem giỏ hàng: hiển thị danh sách sản phẩm + số lượng + tổng giá.
 
-Hiển thị chi tiết sản phẩm
+Xóa sản phẩm → dispatch deleteProduct.
 
-Nút "Thêm vào giỏ"
+Cập nhật số lượng → dispatch addProduct hoặc minusProduct.
 
-Cart page:
+🎭 Trạng thái tải (LoadingOverlay)
+Khi đang gọi API (đăng nhập, tìm sản phẩm, thêm giỏ hàng) → bật overlay.
 
-Hiển thị danh sách sản phẩm đã thêm
+Sau khi hoàn tất → tắt overlay.
 
-Tính tổng tiền + VAT 10%
+Hiển thị các liên kết đến trang chính, danh mục sản phẩm, tài khoản cá nhân.
 
-Giai đoạn 4: Tích hợp logic và state (Tuần 6–7)
-✅ Triển khai:
+📁 Cấu trúc thư mục
+Sao chép mã
+src/
+├─ components/
+│ ├─ Header.jsx
+│ ├─ Sidebar.jsx
+│ └─ LoadingOverlay.jsx
+│
+├─redux
+| ├─ features/
+| ├─ user/
+│ │ └─ userSlice.js
+│ ├─ cart/
+│ │ └─ cartSlice.js
+│ ├─ product/
+│ │ └─ productSlice.js
+│ └─ uiSlice.js
+│ ├─ store.js
+│
+├─ pages/
+│ ├─ Home.jsx
+│ ├─ Login.jsx
+│ └─ Cart.jsx
+│ └─ ProductDetail.jsx
+│ └─ Profile.jsx
+│
+└─ main.jsx
 
-Quản lý state toàn cục bằng Redux Toolkit hoặc Context API
+📝 Ghi chú
+Dự án sử dụng Redux Toolkit để giảm bớt mã lặp.
 
-Gọi dữ liệu sản phẩm từ file JSON tĩnh hoặc API mẫu
+Dùng React Router DOM để điều hướng (trang chủ, đăng nhập, giỏ hàng,...).
 
-Lưu giỏ hàng trong localStorage hoặc Redux store
-
-Chuyển trang bằng react-router-dom
-
-Giai đoạn 5: Hoàn thiện, tối ưu và demo (Tuần 8)
-✅ Hoàn thiện:
-
-Responsive cơ bản cho mobile/tablet
-
-Hiển thị lỗi khi tìm không thấy sản phẩm
-
-Loading spinner khi gọi dữ liệu
-
-Viết tài liệu README (giới thiệu, tính năng, cách chạy)
-
-✅ Demo cuối kỳ:
-
-Chạy ứng dụng + trình bày cấu trúc project
-
-Trả lời các câu hỏi về React, component, props/state, redux
-
-3. Công nghệ sử dụng
-   ReactJS (CRA hoặc Vite)
-
-React Router DOM
-
-Redux Toolkit hoặc Context API
-
-Tailwind CSS hoặc Bootstrap
-
-(Tuỳ chọn) json-server để giả lập API
-
-4. Kết quả đầu ra
-   1 Website bán điện thoại đầy đủ chức năng giao diện, tương tác, điều hướng
-
-Source code React có cấu trúc rõ ràng, dễ bảo trì
-
-Tài liệu mô tả các component chính và cách quản lý state
-
-Demo thực tế và trả lời phỏng vấn kỹ thuật căn bản
+Dùng Vite giúp tốc độ khởi động nhanh hơn so với CRA (create-react-app).
