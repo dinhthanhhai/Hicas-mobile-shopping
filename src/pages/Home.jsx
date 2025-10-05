@@ -4,12 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductsThunk } from "../redux/features/product/productThunk";
 import { Link } from "react-router-dom";
 import { Subject } from "rxjs";
-import {
-  debounceTime,
-  distinctUntilChanged,
-  switchMap,
-  tap,
-} from "rxjs/operators";
+import { debounceTime, switchMap, tap } from "rxjs/operators";
 import { searchProductsThunk } from "../redux/features/product/productThunk";
 import { updateKeyword } from "../redux/features/product/productSlice";
 
@@ -85,7 +80,6 @@ function Home() {
     const subscription = searchSubject.current
       .pipe(
         debounceTime(1000),
-        distinctUntilChanged(),
         tap((value) => {
           dispatch(updateKeyword(value));
         }),
@@ -103,6 +97,8 @@ function Home() {
   useEffect(() => {
     if (name !== "") {
       searchSubject.current.next(name);
+    } else {
+      dispatch(getProductsThunk({ page, limit }));
     }
   }, [name]);
 
@@ -257,6 +253,7 @@ function Home() {
       <div className="px-5 pb-10">
         <ReactPaginate
           pageCount={totalPages}
+          forcePage={(isResult ? curPageSearch : page) - 1}
           onPageChange={({ selected }) => {
             if (isResult) {
               setCurPageSearch(selected + 1);
