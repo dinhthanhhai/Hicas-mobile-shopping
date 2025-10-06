@@ -3,3 +3,10 @@
 @theme {
   --breakpoint-xs: 480px;
 }
+
+@layer base {
+  html,
+  body {
+    @apply h-full overflow-hidden;
+  }
+}

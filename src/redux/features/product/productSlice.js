@@ -6,7 +6,7 @@ import {
 } from "./productThunk";
 
 const initialState = {
-  total: null,
+  total: 0,
   products: [],
   isResult: false,
   keyword: "",

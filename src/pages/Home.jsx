@@ -7,6 +7,7 @@ import { Subject } from "rxjs";
 import { debounceTime, switchMap, tap } from "rxjs/operators";
 import { searchProductsThunk } from "../redux/features/product/productThunk";
 import { updateKeyword } from "../redux/features/product/productSlice";
+import ProductCard from "../components/ProductCard";
 
 function Home() {
   const ref = useRef();
@@ -28,7 +29,9 @@ function Home() {
   const arrFromOption = [0, 10, 20, 50, 70, 100];
   const arrToOption = [0, 10, 20, 50, 70, 100, 999];
   const [resultData, setResultData] = useState(products.slice(0, 10));
-  const dataDisplay = isResult ? resultData : products;
+  const [dataFilter, setDataFilter] = useState([]);
+  const [isFilter, setIsFilter] = useState(false);
+  const dataDisplay = isFilter ? dataFilter : isResult ? resultData : products;
 
   const filteredToOption =
     typeof from === "number"
@@ -36,6 +39,32 @@ function Home() {
           typeof item === "number" ? item > from : true
         )
       : arrToOption;
+
+  // Lọc sản phẩm
+  const handleFilter = () => {
+    setIsOpen(false);
+    setIsFilter(true);
+    if (products.length > 0) {
+      let data = products.filter(
+        (item) =>
+          item.price > from &&
+          item.price <= to &&
+          item.rating > starFrom &&
+          item.rating <= starTo
+      );
+      setDataFilter(data);
+    }
+  };
+
+  // Reset filter
+  const handleResetFilter = () => {
+    setFrom(0);
+    setTo(999);
+    setStarFrom(0);
+    setStarTo(5);
+    setIsFilter(false);
+    setIsOpen(false);
+  };
 
   // Lấy data
   const handleGetProducts = async () => {
@@ -95,6 +124,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
+    handleResetFilter();
     if (name !== "") {
       searchSubject.current.next(name);
     } else {
@@ -216,6 +246,20 @@ function Home() {
                     </div>
                   </div>
                 </div>
+                <div className="flex justify-center gap-3 bg-[#C6E5F4] py-3">
+                  <button
+                    className="border rounded-md w-20 py-1"
+                    onClick={() => handleFilter()}
+                  >
+                    Áp dụng
+                  </button>
+                  <button
+                    className="border rounded-md w-20 py-1"
+                    onClick={() => handleResetFilter()}
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
             )}
           </div>
@@ -226,50 +270,36 @@ function Home() {
         {dataDisplay.length === 0 && <div>Không tìm thấy sản phẩm nào!</div>}
         {dataDisplay?.map((item, index) => {
           return (
-            <Link
-              to={`/product/${item.id}`}
-              key={index}
-              className="flex gap-3 rounded-md p-3 hover:border hover:border-slate-200"
-            >
-              <img
-                src={item?.thumbnail}
-                alt="product"
-                className="w-[125px] h-[175px] object-cover"
-              />
-              <div className="flex flex-col gap-5 font-bold">
-                <span>{item?.title}</span>
-                <span>{item?.price} $</span>
-                <span className="flex gap-1">
-                  {[...Array(Math.ceil(item?.rating || 0))].map((_, i) => (
-                    <img key={i} src="/icons/star.svg" className="w-5 h-5" />
-                  ))}
-                </span>
-              </div>
-            </Link>
+            <div key={index}>
+              <ProductCard item={item} />
+            </div>
           );
         })}
       </div>
       {/* Phân trang */}
-      <div className="px-5 pb-10">
-        <ReactPaginate
-          pageCount={totalPages}
-          forcePage={(isResult ? curPageSearch : page) - 1}
-          onPageChange={({ selected }) => {
-            if (isResult) {
-              setCurPageSearch(selected + 1);
-            } else {
-              setPage(selected + 1);
-            }
-          }}
-          containerClassName="flex gap-2 justify-center flex-wrap mt-6"
-          pageClassName="rounded bg-gray-100 px-3 py-1 cursor-pointer"
-          activeClassName="bg-[#C6E5F4] text-blue-600 font-bold"
-          previousClassName="rounded bg-gray-100 px-3 py-1 cursor-pointer"
-          nextClassName="rounded bg-gray-100 px-3 py-1 cursor-pointer"
-          breakClassName="rounded bg-gray-100 px-3 py-1"
-          disabledClassName="opacity-50 cursor-not-allowed"
-        />
-      </div>
+      {totalPages && !isFilter && (
+        <div className="px-5 pb-10">
+          <ReactPaginate
+            pageCount={totalPages}
+            forcePage={(isResult ? curPageSearch : page) - 1}
+            onPageChange={({ selected }) => {
+              if (isResult) {
+                setCurPageSearch(selected + 1);
+              } else {
+                setPage(selected + 1);
+              }
+            }}
+            containerClassName="flex gap-2 justify-center flex-wrap mt-6"
+            pageClassName="rounded bg-gray-100 px-3 py-1 cursor-pointer"
+            activeClassName="bg-[#C6E5F4] text-blue-600 font-bold"
+            previousClassName="rounded bg-gray-100 px-3 py-1 cursor-pointer"
+            nextClassName="rounded bg-gray-100 px-3 py-1 cursor-pointer"
+            breakClassName="rounded bg-gray-100 px-3 py-1"
+            disabledClassName="opacity-50 cursor-not-allowed"
+          />
+        </div>
+      )}
+      <div className="px-5 pb-20"></div>
     </>
   );
 }

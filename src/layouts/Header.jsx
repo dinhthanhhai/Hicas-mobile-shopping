@@ -9,7 +9,7 @@ const Header = () => {
   const ref = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLogined } = useSelector((state) => state.user);
+  const { isLogined, info } = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
@@ -34,12 +34,18 @@ const Header = () => {
 
   return (
     <header className="fixed insert-0 z-50 top-0 w-full h-20 bg-[#C6E5F4] flex items-center">
-      <img src="/images/logo.png" alt="logo" className="ml-[37px] w-16 h-14" />
+      <Link to={"/"}>
+        <img
+          src="/images/logo.png"
+          alt="logo"
+          className="ml-[37px] w-16 h-14"
+        />
+      </Link>
       <span className="text-2xl ml-4 hidden sm:block">Moblie Shopping</span>
       {isLogined ? (
-        <div className="ml-auto mr-5 realtive">
+        <div className="ml-auto mr-5 realtive bg-white rounded-full">
           <img
-            src="/images/avatar.png"
+            src={info.image || "/images/avatar.png"}
             alt="avatar"
             className="w-12 h-12"
             onClick={() => setIsOpen(true)}

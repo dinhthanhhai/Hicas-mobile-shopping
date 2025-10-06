@@ -46,10 +46,10 @@ function AppLayout() {
     <>
       <Header />
       <main className="mt-20 flex h-screen">
-        <div className="h-full fixed top-20 left-0">
+        <div className="h-full">
           <Sidebar />
         </div>
-        <div className="ml-[60px] md:ml-[243px] flex-1">
+        <div className="flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shopping-cart" element={<Cart />} />

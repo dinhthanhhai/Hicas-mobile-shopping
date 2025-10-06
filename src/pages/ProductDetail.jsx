@@ -47,9 +47,11 @@ function ProductDetail() {
       <div className="flex flex-col gap-3 px-5 pt-5 border-b border-slate-300 h-28">
         <span className="text-4xl font-bold mr-auto">Shop</span>
         <div className="flex items-center justify-between">
-          <span className="text-2xl mr-auto sm:mb-auto flex-1">
-            Shop / Product
-          </span>
+          <p className="text-2xl mr-auto sm:mb-auto flex-1 flex gap-1">
+            <Link to={"/"}>Shop</Link>
+            <span>/</span>
+            <span>Product</span>
+          </p>
           <Link to={"/shopping-cart"} className="relative">
             <ShoppingCart className="w-8 h-8" />
             <span className="w-4 h-4 flex items-center justify-center rounded-full border bg-[#C6E5F4] absolute top-0 -right-1 text-[10px]">
