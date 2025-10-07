@@ -69,7 +69,7 @@ createRoot(document.getElementById("root")).render(
         <BrowserRouter>
           <AppLayout />
           <LoadingOverlay />
-          <ToastContainer />
+          <ToastContainer position="bottom-right" />
         </BrowserRouter>
       </PersistGate>
     </Provider>

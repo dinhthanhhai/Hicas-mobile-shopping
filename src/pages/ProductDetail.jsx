@@ -100,12 +100,22 @@ function ProductDetail() {
           </span>
           <div className="grid grid-cols-2 gap-5 text-white text-2xl font-semibold mt-5">
             <button
+              type="button"
               className="py-3 rounded-lg bg-[#00C2FF]"
-              onClick={() => handleAddProduct(product)}
+              onClick={() => {
+                handleAddProduct(product);
+                if (isLogined) {
+                  navigate("/shopping-cart");
+                } else {
+                  dispatch(setViewProduct(`/product/${product?.id}`));
+                  navigate("/login");
+                }
+              }}
             >
               Mua ngay
             </button>
             <button
+              type="button"
               className="py-3 rounded-lg bg-[#00FF19]"
               onClick={() => handleAddProduct(product)}
             >
