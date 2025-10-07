@@ -49,7 +49,7 @@ function AppLayout() {
         <div className="h-full">
           <Sidebar />
         </div>
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto mb-20">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shopping-cart" element={<Cart />} />

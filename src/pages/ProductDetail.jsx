@@ -93,22 +93,15 @@ function ProductDetail() {
           <p className="mt-5">{product?.description}</p>
           <span className="mt-5 text-3xl font-bold">{product?.price} $</span>
           <span className="flex gap-1 mt-3">
-            {[...Array(Math.ceil(product?.rating | 0))].map((_, i) => (
-              <img key={i} src="/icons/star.svg" className="w-8 h-8 " />
-            ))}
+            {product?.rating > 0 &&
+              [...Array(Math.ceil(product?.rating))].map((_, i) => (
+                <img key={i} src="/icons/star.svg" className="w-8 h-8 " />
+              ))}
           </span>
           <div className="grid grid-cols-2 gap-5 text-white text-2xl font-semibold mt-5">
             <button
               className="py-3 rounded-lg bg-[#00C2FF]"
-              onClick={() => {
-                handleAddProduct(product);
-                if (isLogined) {
-                  navigate("/shopping-cart");
-                } else {
-                  dispatch(setViewProduct(`/product/${product?.id}`));
-                  navigate("/login");
-                }
-              }}
+              onClick={() => handleAddProduct(product)}
             >
               Mua ngay
             </button>
